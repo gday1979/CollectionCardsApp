@@ -1,4 +1,4 @@
-﻿namespace CollectionCards.Data.Models
+﻿namespace CollectionCards.Service.BuyerService
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class Cards
+    internal class IBuyerService
     {
     }
 }
