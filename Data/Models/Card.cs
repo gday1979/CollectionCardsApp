@@ -20,7 +20,7 @@
         [Display(Name = "Price")]
         [Range(1, 100000000 , ErrorMessage = "Price must be between 1-10000000")]
         public double Price { get; set; }
-        public int Stock { get; set; }
+        public int YearCard { get; set; }
 
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
