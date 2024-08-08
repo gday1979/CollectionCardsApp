@@ -1,6 +1,7 @@
 ﻿namespace CollectionCards.Data.Data
 {
     using CollectionCards.Data.Models;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -9,7 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -19,14 +20,10 @@
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
         public DbSet<Organization> Organizations { get; set; }
-
-        public DbSet<Buyer> Buyers { get; set; }
-
         public DbSet<Card> Cards { get; set; }
 
-        public DbSet<Seller> Sellers { get; set; }
+       
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
