@@ -1,11 +1,7 @@
 ﻿namespace CollectionCards.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class Category
     {
@@ -19,5 +15,7 @@
         [Display(Name = "Display Order")]
         [Range(1,50,ErrorMessage ="Display Oredr must be between 1-50")]
         public int DisplayOrder { get; set; }
+
+
     }
 }
