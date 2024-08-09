@@ -1,5 +1,8 @@
 namespace CollectionCards
 {
+    using CollectionCards.Data.Data;
+    using Microsoft.EntityFrameworkCore;
+
     public class Program
     {
         public static void Main(string[] args)
@@ -8,6 +11,11 @@ namespace CollectionCards
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Register the DbContext with the dependency injection container
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
             var app = builder.Build();
 
