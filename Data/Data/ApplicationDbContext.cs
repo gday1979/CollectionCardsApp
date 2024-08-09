@@ -17,18 +17,21 @@
             
         }
 
-        public DbSet<Category> Categories { get; set; }
-
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Card> Cards { get; set; }
 
-       
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+           
 
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Football", DisplayOrder = 1 },

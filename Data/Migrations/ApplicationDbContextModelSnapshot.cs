@@ -22,34 +22,6 @@ namespace CollectionCards.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CollectionCards.Data.Models.Buyer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Buyers", (string)null);
-                });
-
             modelBuilder.Entity("CollectionCards.Data.Models.Card", b =>
                 {
                     b.Property<int>("Id")
@@ -67,6 +39,9 @@ namespace CollectionCards.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -81,7 +56,9 @@ namespace CollectionCards.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Cards", (string)null);
+                    b.HasIndex("OrganizationId");
+
+                    b.ToTable("Cards");
 
                     b.HasData(
                         new
@@ -154,7 +131,7 @@ namespace CollectionCards.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -215,7 +192,7 @@ namespace CollectionCards.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizations", (string)null);
+                    b.ToTable("Organizations");
 
                     b.HasData(
                         new
@@ -254,34 +231,6 @@ namespace CollectionCards.Data.Migrations
                             PostalCode = "40001",
                             Street = "Pine 7"
                         });
-                });
-
-            modelBuilder.Entity("CollectionCards.Data.Models.Seller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sellers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -524,6 +473,10 @@ namespace CollectionCards.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CollectionCards.Data.Models.Organization", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("OrganizationId");
+
                     b.Navigation("Category");
                 });
 
@@ -585,6 +538,11 @@ namespace CollectionCards.Data.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("CollectionCards.Data.Models.Organization", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

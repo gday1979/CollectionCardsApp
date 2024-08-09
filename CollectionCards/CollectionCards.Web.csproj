@@ -4,21 +4,29 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>d9566371-4f86-457c-b3cb-dafda3b49c04</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Common\CollectionCards.Utility.csproj" />
 		<ProjectReference Include="..\Data\CollectionCards.Data.csproj" />
 		<ProjectReference Include="..\Service\CollectionCards.Service.csproj" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Areas\" />
+		<Folder Include="Areas\Admin\" />
+		<Folder Include="Areas\Buyer\" />
+		<Folder Include="Areas\Seller\" />
 		<Folder Include="ViewModels\" />
+		<Folder Include="wwwroot\Images\" />
 	</ItemGroup>
 
 </Project>

@@ -28,23 +28,6 @@ namespace CollectionCards.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Buyers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Buyers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -73,23 +56,6 @@ namespace CollectionCards.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Organizations", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sellers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sellers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,7 +126,8 @@ namespace CollectionCards.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     YearCard = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    OrganizationId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,6 +138,11 @@ namespace CollectionCards.Data.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cards_Organizations_OrganizationId",
+                        column: x => x.OrganizationId,
+                        principalTable: "Organizations",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -283,14 +255,14 @@ namespace CollectionCards.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cards",
-                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "Price", "Title", "YearCard" },
+                columns: new[] { "Id", "CategoryId", "Description", "ImageUrl", "OrganizationId", "Price", "Title", "YearCard" },
                 values: new object[,]
                 {
-                    { 1, 3, "Mickey Mantle", "https://www.psacard.com/cardfacts/baseball-cards/1952-topps/mickey-mantle-311/23330", 12600000.0, "Baseball Card", 1952 },
-                    { 2, 2, "Michael Jordan", "https://www.psacard.com/cardfacts/basketball-cards/1986-fleer/michael-jordan-57/27039", 750000.0, "Basketball Card", 1986 },
-                    { 3, 1, "Tom Brady", "https://www.psacard.com/cardfacts/football-cards/2000-playoff-contenders/tom-brady-144/27039", 250000.0, "Football Card", 2000 },
-                    { 4, 3, "Honus Wagner", "https://www.psacard.com/cardfacts/baseball-cards/1909-11-t206/honus-wagner-175/27039", 6600000.0, "Baseball Card", 1909 },
-                    { 5, 2, "Stephen Curry", "https://www.psacard.com/cardfacts/basketball-cards/2009-10-panini-national-treasures/stephen-curry-206/27039", 5900000.0, "Basketball Card", 2009 }
+                    { 1, 3, "Mickey Mantle", "https://www.psacard.com/cardfacts/baseball-cards/1952-topps/mickey-mantle-311/23330", null, 12600000.0, "Baseball Card", 1952 },
+                    { 2, 2, "Michael Jordan", "https://www.psacard.com/cardfacts/basketball-cards/1986-fleer/michael-jordan-57/27039", null, 750000.0, "Basketball Card", 1986 },
+                    { 3, 1, "Tom Brady", "https://www.psacard.com/cardfacts/football-cards/2000-playoff-contenders/tom-brady-144/27039", null, 250000.0, "Football Card", 2000 },
+                    { 4, 3, "Honus Wagner", "https://www.psacard.com/cardfacts/baseball-cards/1909-11-t206/honus-wagner-175/27039", null, 6600000.0, "Baseball Card", 1909 },
+                    { 5, 2, "Stephen Curry", "https://www.psacard.com/cardfacts/basketball-cards/2009-10-panini-national-treasures/stephen-curry-206/27039", null, 5900000.0, "Basketball Card", 2009 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -341,6 +313,11 @@ namespace CollectionCards.Data.Migrations
                 name: "IX_Cards_CategoryId",
                 table: "Cards",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cards_OrganizationId",
+                table: "Cards",
+                column: "OrganizationId");
         }
 
         /// <inheritdoc />
@@ -362,22 +339,16 @@ namespace CollectionCards.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Buyers");
-
-            migrationBuilder.DropTable(
                 name: "Cards");
-
-            migrationBuilder.DropTable(
-                name: "Organizations");
-
-            migrationBuilder.DropTable(
-                name: "Sellers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Organizations");
 
             migrationBuilder.DropTable(
                 name: "Categories");

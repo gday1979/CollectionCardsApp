@@ -6,7 +6,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal class IBuyerService
+    public interface  ICardService
     {
+
     }
 }

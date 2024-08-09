@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CollectionCards.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240804113301_InitialCreate")]
+    [Migration("20240809122801_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,34 +24,6 @@ namespace CollectionCards.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CollectionCards.Data.Models.Buyer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Buyers");
-                });
 
             modelBuilder.Entity("CollectionCards.Data.Models.Card", b =>
                 {
@@ -70,6 +42,9 @@ namespace CollectionCards.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("OrganizationId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
@@ -83,6 +58,8 @@ namespace CollectionCards.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrganizationId");
 
                     b.ToTable("Cards");
 
@@ -257,34 +234,6 @@ namespace CollectionCards.Data.Migrations
                             PostalCode = "40001",
                             Street = "Pine 7"
                         });
-                });
-
-            modelBuilder.Entity("CollectionCards.Data.Models.Seller", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -527,6 +476,10 @@ namespace CollectionCards.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CollectionCards.Data.Models.Organization", null)
+                        .WithMany("Cards")
+                        .HasForeignKey("OrganizationId");
+
                     b.Navigation("Category");
                 });
 
@@ -588,6 +541,11 @@ namespace CollectionCards.Data.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("CollectionCards.Data.Models.Organization", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

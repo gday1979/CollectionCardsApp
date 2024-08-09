@@ -1,6 +1,6 @@
 ﻿namespace Common
 {
-    public class GlobalConstants
+    public static class GlobalConstants
     {
 
     }
